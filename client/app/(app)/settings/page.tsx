@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Topbar } from '@/components/layout/Topbar'
 import { Card } from '@/components/ui/Card'
@@ -13,7 +13,7 @@ import { useIntegrations } from '@/hooks/useIntegrations'
 import { useToast } from '@/components/providers/ToastProvider'
 import type { SlackChannel } from '@/types'
 
-export default function SettingsPage() {
+function SettingsContent() {
   const { user } = useAuth()
   const {
     integrations,
@@ -29,7 +29,6 @@ export default function SettingsPage() {
   const { toastSuccess, toastError } = useToast()
   const searchParams = useSearchParams()
 
-  // Channel selector state
   const [channelSelectorOpen, setChannelSelectorOpen] = useState(false)
   const [slackChannels, setSlackChannelsState] = useState<SlackChannel[]>([])
   const [channelsLoading, setChannelsLoading] = useState(false)
@@ -75,7 +74,6 @@ export default function SettingsPage() {
 
   return (
     <>
-      <Topbar title="Settings" />
       <div className="page-content">
         <div className="max-w-2xl space-y-12">
           {/* Profile section */}
@@ -83,21 +81,21 @@ export default function SettingsPage() {
             <h2 className="section-heading mt-0">Your profile</h2>
             <Card>
               <dl className="space-y-3 text-sm">
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <dt className="text-(--text-tertiary)">Name</dt>
                   <dd>{user?.name}</dd>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <dt className="text-(--text-tertiary)">Email</dt>
                   <dd>{user?.email}</dd>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <dt className="text-(--text-tertiary)">Role</dt>
                   <dd>
                     <Badge>{user?.role}</Badge>
                   </dd>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <dt className="text-(--text-tertiary)">Org ID</dt>
                   <dd>
                     <code className="text-xs text-(--text-accent)">{user?.orgId}</code>
@@ -187,7 +185,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Slack channel selector modal */}
       <ChannelSelector
         open={channelSelectorOpen}
         channels={slackChannels}
@@ -196,6 +193,17 @@ export default function SettingsPage() {
         onSave={handleSaveChannels}
         onClose={() => setChannelSelectorOpen(false)}
       />
+    </>
+  )
+}
+
+export default function SettingsPage() {
+  return (
+    <>
+      <Topbar title="Settings" />
+      <Suspense fallback={<div className="flex flex-1 items-center justify-center"><Spinner className="h-6 w-6" /></div>}>
+        <SettingsContent />
+      </Suspense>
     </>
   )
 }
