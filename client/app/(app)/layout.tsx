@@ -1,24 +1,20 @@
 'use client'
 
-import { useAuth } from '@/hooks/useAuth'
+import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
-import { Spinner } from '@/components/ui/Spinner'
+import { ToastProvider } from '@/components/providers/ToastProvider'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { loading } = useAuth()
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spinner className="h-8 w-8" />
-      </div>
-    )
-  }
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex flex-1 flex-col overflow-hidden">{children}</main>
-    </div>
+    <ToastProvider>
+      <div className="app-shell">
+        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <main className="main">
+          {children}
+        </main>
+      </div>
+    </ToastProvider>
   )
 }

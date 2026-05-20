@@ -17,7 +17,11 @@ async def get_embedding(text: str) -> list[float]:
         res = await client.post(
             f"{settings.OPENROUTER_BASE}/embeddings",
             headers={"Authorization": f"Bearer {settings.OPENROUTER_API_KEY}"},
-            json={"model": EMBED_MODEL, "input": text[:8000]},
+            json={
+                "model": EMBED_MODEL,
+                "input": text[:8000],
+                "dimensions": 768,
+            },
             timeout=60.0,
         )
         res.raise_for_status()

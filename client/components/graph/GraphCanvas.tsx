@@ -32,7 +32,7 @@ export function GraphCanvas({ data }: GraphCanvasProps) {
   }
 
   return (
-    <div className="h-[calc(100vh-8rem)] w-full overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="h-full w-full overflow-hidden">
       <ForceGraph2D
         graphData={graphData}
         nodeLabel="label"

@@ -15,10 +15,7 @@ export function TagFilter({ tags, selected, onSelect }: TagFilterProps) {
       <button
         type="button"
         onClick={() => onSelect(null)}
-        className={cn(
-          'rounded-full px-3 py-1 text-sm font-medium transition',
-          !selected ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800',
-        )}
+        className={cn('btn btn-sm', !selected ? 'btn-primary' : 'btn-ghost border border-[var(--border-subtle)]')}
       >
         All
       </button>
@@ -27,12 +24,7 @@ export function TagFilter({ tags, selected, onSelect }: TagFilterProps) {
           key={tag}
           type="button"
           onClick={() => onSelect(tag)}
-          className={cn(
-            'rounded-full px-3 py-1 text-sm font-medium transition',
-            selected === tag
-              ? 'bg-indigo-600 text-white'
-              : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800',
-          )}
+          className={cn('btn btn-sm', selected === tag ? 'btn-primary' : 'btn-ghost border border-[var(--border-subtle)]')}
         >
           {tag}
         </button>

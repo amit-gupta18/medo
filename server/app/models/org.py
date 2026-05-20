@@ -14,3 +14,4 @@ class Org(IDMixin, TimestampMixin, Base):
     users = relationship("User", back_populates="org", lazy="selectin")
     knowledge_items = relationship("KnowledgeItem", back_populates="org", lazy="selectin")
     playbooks = relationship("Playbook", back_populates="org", lazy="selectin")
+    integrations = relationship("Integration", back_populates="org", lazy="selectin")

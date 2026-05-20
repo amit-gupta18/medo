@@ -70,3 +70,20 @@ export interface PlaybookStep {
   sourceItemId?: string
   sourceItem?: { title: string }
 }
+
+export interface Integration {
+  id: string
+  type: 'SLACK' | 'NOTION' | 'LINEAR'
+  teamName: string | null
+  syncStatus: 'IDLE' | 'SYNCING' | 'ERROR'
+  lastSyncedAt: string | null
+  errorMessage: string | null
+  config: Record<string, unknown> | null
+}
+
+export interface SlackChannel {
+  id: string
+  name: string
+  topic: string
+}
+

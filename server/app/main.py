@@ -28,13 +28,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from app.routers import auth, chat, graph, knowledge, playbooks  # noqa: E402
+from app.routers import auth, chat, graph, knowledge, playbooks, integrations  # noqa: E402
 
 app.include_router(auth.router)
 app.include_router(knowledge.router)
 app.include_router(chat.router)
 app.include_router(graph.router)
 app.include_router(playbooks.router)
+app.include_router(integrations.router)
 
 
 @app.get("/health")

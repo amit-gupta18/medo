@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 import { AuthProvider } from '@/components/providers/AuthProvider'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const dmSans = DM_Sans({
+  variable: '--font-dm-sans',
   subsets: ['latin'],
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const dmSerif = DM_Serif_Display({
+  variable: '--font-dm-serif',
+  weight: '400',
   subsets: ['latin'],
 })
 
@@ -26,9 +27,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${dmSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-zinc-50 font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
+      <body>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

@@ -5,16 +5,19 @@ import { Topbar } from '@/components/layout/Topbar'
 import { PlaybookCard } from '@/components/playbooks/PlaybookCard'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
+import { SkeletonList } from '@/components/ui/Skeleton'
 import { usePlaybooks } from '@/hooks/usePlaybooks'
+import { useToast } from '@/components/providers/ToastProvider'
 
 export default function PlaybooksPage() {
   const { playbooks, loading, list, generate } = usePlaybooks()
+  const { toastSuccess, toastError } = useToast()
   const [topic, setTopic] = useState('')
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    list()
-  }, [list])
+    list().catch(() => toastError('Failed to load playbooks'))
+  }, [list, toastError])
 
   const handleGenerate = async (e: FormEvent) => {
     e.preventDefault()
@@ -22,7 +25,10 @@ export default function PlaybooksPage() {
     setGenerating(true)
     try {
       await generate(topic.trim())
+      toastSuccess('Playbook generated successfully!')
       setTopic('')
+    } catch {
+      toastError('Failed to generate playbook. Please try again.')
     } finally {
       setGenerating(false)
     }
@@ -31,7 +37,7 @@ export default function PlaybooksPage() {
   return (
     <>
       <Topbar title="Playbooks" />
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6">
         <form onSubmit={handleGenerate} className="mb-8 flex gap-2">
           <input
             className="flex-1 rounded-lg border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-900"
@@ -45,13 +51,17 @@ export default function PlaybooksPage() {
         </form>
 
         {loading ? (
-          <div className="flex justify-center py-12">
-            <Spinner className="h-8 w-8" />
-          </div>
+          <SkeletonList count={6} />
         ) : playbooks.length === 0 ? (
-          <p className="text-center text-zinc-500">
-            No playbooks yet. Enter a topic above to generate an SOP from your knowledge.
-          </p>
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 py-16 text-center dark:border-zinc-700">
+            <span className="text-4xl">📋</span>
+            <p className="mt-3 font-medium text-zinc-600 dark:text-zinc-400">
+              No playbooks yet
+            </p>
+            <p className="mt-1 text-sm text-zinc-500">
+              Enter a topic above to generate an SOP from your knowledge.
+            </p>
+          </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {playbooks.map((pb) => (

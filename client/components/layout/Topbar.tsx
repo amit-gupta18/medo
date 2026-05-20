@@ -5,17 +5,26 @@ import { Button } from '@/components/ui/Button'
 interface TopbarProps {
   title: string
   onUpload?: () => void
+  onToggleSidebar?: () => void
 }
 
-export function Topbar({ title, onUpload }: TopbarProps) {
+export function Topbar({ title, onUpload, onToggleSidebar }: TopbarProps) {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-zinc-200 bg-white px-6 dark:border-zinc-800 dark:bg-zinc-900">
-      <h1 className="text-lg font-semibold">{title}</h1>
-      {onUpload && (
-        <Button size="sm" onClick={onUpload}>
-          + Add knowledge
-        </Button>
-      )}
-    </header>
+    <div className="topbar">
+      <span className="topbar-title">{title}</span>
+      <div className="topbar-right">
+        {onUpload && (
+          <button className="btn btn-sm btn-primary" onClick={onUpload}>
+            + Add to brain
+          </button>
+        )}
+        <div className="topbar-user">
+          <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+            demo@acme.com
+          </span>
+          <div className="avatar">D</div>
+        </div>
+      </div>
+    </div>
   )
 }
