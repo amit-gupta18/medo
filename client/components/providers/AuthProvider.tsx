@@ -2,10 +2,12 @@
 
 import {
   createContext,
+  startTransition,
   useCallback,
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useRouter } from 'next/navigation'
@@ -27,6 +29,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  // Guard: never dispatch a router action before the client has mounted.
+  const mountedRef = useRef(false)
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => { mountedRef.current = false }
+  }, [])
+
+  const navigate = useCallback((href: string) => {
+    if (!mountedRef.current) return
+    startTransition(() => { router.push(href) })
+  }, [router])
 
   const refresh = useCallback(async () => {
     try {
@@ -47,25 +61,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (email: string, password: string) => {
       const u = await apiPost<User>('/auth/login', { email, password })
       setUser(u)
-      router.push('/dashboard')
+      navigate('/dashboard')
     },
-    [router],
+    [navigate],
   )
 
   const register = useCallback(
     async (data: { name: string; email: string; password: string; orgName: string }) => {
       const u = await apiPost<User>('/auth/register', data)
       setUser(u)
-      router.push('/dashboard')
+      navigate('/dashboard')
     },
-    [router],
+    [navigate],
   )
 
   const logout = useCallback(async () => {
     await apiPost('/auth/logout')
     setUser(null)
-    router.push('/login')
-  }, [router])
+    navigate('/login')
+  }, [navigate])
 
   const value = useMemo(
     () => ({ user, loading, login, register, logout, refresh }),

@@ -141,7 +141,7 @@ export default function GraphPage() {
                           {item.tags?.slice(0, 2).map((t) => (
                             <span key={t} className="badge badge-default">{t}</span>
                           ))}
-                          <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
+                          <span>{formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}</span>
                         </div>
                       </div>
                     </div>
