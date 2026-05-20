@@ -10,8 +10,8 @@ export function ChatMessage({ message }: { message: ChatMessageType }) {
         className={cn(
           'max-w-[80%] rounded-2xl px-4 py-3 text-sm',
           isUser
-            ? 'bg-indigo-600 text-white'
-            : 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100',
+            ? 'bg-[var(--accent)] text-[#0D0C0B] font-medium'
+            : 'bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-subtle)]',
         )}
       >
         <p className="whitespace-pre-wrap">{message.content}</p>

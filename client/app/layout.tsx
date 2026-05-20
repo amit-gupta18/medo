@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${dmSerif.variable} h-full antialiased`}
     >
-      <body>
+      <body className="h-full">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

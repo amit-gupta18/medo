@@ -76,39 +76,41 @@ export default function SettingsPage() {
   return (
     <>
       <Topbar title="Settings" />
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <div className="max-w-2xl space-y-8">
+      <div className="page-content">
+        <div className="max-w-2xl space-y-12">
           {/* Profile section */}
-          <Card>
-            <h2 className="font-semibold">Your profile</h2>
-            <dl className="mt-4 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <dt className="text-zinc-500">Name</dt>
-                <dd>{user?.name}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-zinc-500">Email</dt>
-                <dd>{user?.email}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-zinc-500">Role</dt>
-                <dd>
-                  <Badge>{user?.role}</Badge>
-                </dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-zinc-500">Org ID</dt>
-                <dd>
-                  <code className="text-xs">{user?.orgId}</code>
-                </dd>
-              </div>
-            </dl>
-          </Card>
+          <div>
+            <h2 className="section-heading mt-0">Your profile</h2>
+            <Card>
+              <dl className="space-y-3 text-sm">
+                <div className="flex justify-between items-center">
+                  <dt className="text-(--text-tertiary)">Name</dt>
+                  <dd>{user?.name}</dd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <dt className="text-(--text-tertiary)">Email</dt>
+                  <dd>{user?.email}</dd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <dt className="text-(--text-tertiary)">Role</dt>
+                  <dd>
+                    <Badge>{user?.role}</Badge>
+                  </dd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <dt className="text-(--text-tertiary)">Org ID</dt>
+                  <dd>
+                    <code className="text-xs text-(--text-accent)">{user?.orgId}</code>
+                  </dd>
+                </div>
+              </dl>
+            </Card>
+          </div>
 
           {/* Integrations section */}
           <div>
-            <h2 className="mb-1 text-lg font-semibold">Integrations</h2>
-            <p className="mb-4 text-sm text-zinc-500">
+            <h2 className="section-heading mt-0">Integrations</h2>
+            <p className="mb-6 text-(--text-tertiary)">
               Connect your tools to automatically sync knowledge into Brainyfy.
             </p>
 
@@ -117,7 +119,7 @@ export default function SettingsPage() {
                 <Spinner className="h-6 w-6" />
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="grid-2">
                 <IntegrationCard
                   type="slack"
                   name="Slack"

@@ -22,18 +22,22 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden />
+    <div className="modal-overlay">
+      <div className="absolute inset-0" onClick={onClose} aria-hidden />
       <div
-        className={cn(
-          'relative z-10 w-full max-w-lg rounded-xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-700 dark:bg-zinc-900',
-          className,
-        )}
+        className={cn('modal relative z-10', className)}
         role="dialog"
         aria-modal
       >
-        {title && <h2 className="mb-4 text-lg font-semibold">{title}</h2>}
-        {children}
+        {title && (
+          <div className="modal-header">
+            <h2 className="modal-title">{title}</h2>
+            <button onClick={onClose} className="icon-btn">×</button>
+          </div>
+        )}
+        <div className="modal-body">
+          {children}
+        </div>
       </div>
     </div>
   )

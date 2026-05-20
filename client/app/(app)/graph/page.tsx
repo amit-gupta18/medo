@@ -44,14 +44,14 @@ export default function GraphPage() {
 
   return (
     <>
-      <Topbar title="Brain Mood Board" />
+      <Topbar title="Graph" />
       <div className="page-content">
-        <h1 className="page-heading">Your Brain</h1>
+        <h1 className="page-heading">Knowledge Graph</h1>
         <p className="page-subheading">A unified map of your organization's connected knowledge</p>
 
         {isLoading ? (
           <div className="flex h-64 items-center justify-center">
-            <span className="text-zinc-500">Loading your brain...</span>
+            <span className="text-(--text-tertiary) text-sm">Loading your brain…</span>
           </div>
         ) : (
           <div className="flex flex-col gap-8">
@@ -135,11 +135,11 @@ export default function GraphPage() {
                       <div className="knowledge-row-body">
                         <div className="knowledge-row-title">{item.title}</div>
                         <div className="knowledge-row-meta">
-                          <span className={`badge badge-${item.source === 'UPLOAD' ? 'blue' : item.source === 'NOTION' ? 'accent' : 'default'}`} style={{ fontSize: 10, padding: '1px 7px' }}>
+                          <span className={`badge badge-${item.source === 'UPLOAD' ? 'blue' : item.source === 'NOTION' ? 'accent' : 'default'}`}>
                             {item.source}
                           </span>
                           {item.tags?.slice(0, 2).map((t) => (
-                            <span key={t} className="badge badge-default" style={{ fontSize: 10, padding: '1px 7px' }}>{t}</span>
+                            <span key={t} className="badge badge-default">{t}</span>
                           ))}
                           <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
                         </div>

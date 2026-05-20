@@ -46,41 +46,42 @@ export default function KnowledgeDetailPage() {
   return (
     <>
       <Topbar title="Knowledge" />
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <Link href="/knowledge" className="text-sm text-indigo-600 hover:underline">
+      <div className="page-content">
+        <Link
+          href="/knowledge"
+          className="caption hover:text-(--text-secondary) transition-colors"
+        >
           ← Back to knowledge
         </Link>
+
         {loading ? (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-12 flex justify-center">
             <Spinner className="h-8 w-8" />
           </div>
         ) : !item ? (
-          <div className="mt-8 flex flex-col items-center py-16 text-center">
+          <div className="empty-state mt-8">
             <span className="text-4xl">🔍</span>
-            <p className="mt-3 text-zinc-500">Item not found.</p>
+            <p className="mt-3 font-medium text-foreground">Item not found.</p>
           </div>
         ) : (
           <article className="mt-6 max-w-3xl">
-            <h1 className="text-2xl font-bold">{item.title}</h1>
-            <p className="mt-2 text-sm text-zinc-500">
+            <h1 className="page-heading">{item.title}</h1>
+            <p className="caption mt-2">
               {item.source} · {formatDate(item.createdAt)}
             </p>
-            <div className="mt-3 flex flex-wrap gap-1">
+            <div className="mt-3 flex flex-wrap gap-1.5">
               {item.tags.map((tag) => (
                 <Badge key={tag}>{tag}</Badge>
               ))}
             </div>
-            <div className="mt-6 whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-6 text-sm leading-relaxed dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="mt-6 rounded-xl border border-(--border-subtle) bg-(--bg-surface) p-6 text-sm leading-relaxed text-(--text-secondary) whitespace-pre-wrap">
               {item.content}
             </div>
-            <Button
-              variant="secondary"
-              className="mt-6"
-              onClick={handleDelete}
-              disabled={deleting}
-            >
-              {deleting ? 'Deleting…' : 'Delete item'}
-            </Button>
+            <div className="mt-6">
+              <Button variant="danger" onClick={handleDelete} disabled={deleting}>
+                {deleting ? 'Deleting…' : 'Delete item'}
+              </Button>
+            </div>
           </article>
         )}
       </div>

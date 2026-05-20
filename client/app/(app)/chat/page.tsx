@@ -22,9 +22,9 @@ export default function ChatPage() {
   )
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <Topbar title="Chat" />
       <ChatWindow messages={messages} loading={loading} onSend={handleSend} />
-    </>
+    </div>
   )
 }

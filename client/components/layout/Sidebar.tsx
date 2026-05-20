@@ -35,7 +35,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       <aside
         className={cn(
           'sidebar',
-          !open && 'hidden md:flex',
+          open
+            ? 'fixed inset-y-0 left-0 z-50 md:relative md:z-auto'
+            : 'hidden md:flex',
         )}
       >
         <div className="sidebar-logo">

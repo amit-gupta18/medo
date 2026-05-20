@@ -1,20 +1,27 @@
 'use client'
 
-import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { ToastProvider } from '@/components/providers/ToastProvider'
+import { SidebarProvider, useSidebar } from '@/components/providers/SidebarProvider'
+
+function AppShell({ children }: { children: React.ReactNode }) {
+  const { open, close } = useSidebar()
+  return (
+    <div className="app-shell">
+      <Sidebar open={open} onClose={close} />
+      <main className="main">
+        {children}
+      </main>
+    </div>
+  )
+}
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-
   return (
-    <ToastProvider>
-      <div className="app-shell">
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="main">
-          {children}
-        </main>
-      </div>
-    </ToastProvider>
+    <SidebarProvider>
+      <ToastProvider>
+        <AppShell>{children}</AppShell>
+      </ToastProvider>
+    </SidebarProvider>
   )
 }

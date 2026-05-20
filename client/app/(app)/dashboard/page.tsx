@@ -20,32 +20,35 @@ export default function DashboardPage() {
   return (
     <>
       <Topbar title="Dashboard" />
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
+      <div className="page-content">
+        <h1 className="page-heading">Dashboard</h1>
+        <p className="page-subheading">Overview of your brain's connected data</p>
+
         {loading ? (
-          <div className="mb-6 grid gap-4 sm:grid-cols-3">
+          <div className="grid-3 mb-8">
             <SkeletonCard />
             <SkeletonCard />
             <SkeletonCard />
           </div>
         ) : (
-          <div className="mb-6 grid gap-4 sm:grid-cols-3">
+          <div className="grid-3 mb-8">
             <Card>
-              <p className="text-sm text-zinc-500">Knowledge items</p>
-              <p className="mt-1 text-3xl font-bold">{items.length}</p>
+              <div className="caption">Knowledge items</div>
+              <div className="stat-value mt-2">{items.length}</div>
             </Card>
             <Card>
-              <p className="text-sm text-zinc-500">Tags</p>
-              <p className="mt-1 text-3xl font-bold">
+              <div className="caption">Tags</div>
+              <div className="stat-value mt-2">
                 {new Set(items.flatMap((i) => i.tags)).size}
-              </p>
+              </div>
             </Card>
             <Card>
-              <p className="text-sm text-zinc-500">Quick links</p>
-              <div className="mt-2 flex flex-col gap-1 text-sm">
-                <Link href="/knowledge" className="text-indigo-600 hover:underline">
+              <div className="caption">Quick links</div>
+              <div className="mt-4 flex flex-col gap-2 text-sm">
+                <Link href="/knowledge" className="text-(--text-accent) hover:underline">
                   Browse knowledge →
                 </Link>
-                <Link href="/chat" className="text-indigo-600 hover:underline">
+                <Link href="/chat" className="text-(--text-accent) hover:underline">
                   Ask the brain →
                 </Link>
               </div>
@@ -53,39 +56,46 @@ export default function DashboardPage() {
           </div>
         )}
 
-        <h2 className="mb-3 text-lg font-semibold">Recent knowledge</h2>
+        <h2 className="section-heading mt-0">Recent knowledge</h2>
         {loading ? (
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
+              <div key={i} className="h-14 animate-pulse rounded-lg bg-(--bg-elevated)" />
             ))}
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 py-16 text-center dark:border-zinc-700">
+          <div className="empty-state">
             <span className="text-4xl">📄</span>
-            <p className="mt-3 font-medium text-zinc-600 dark:text-zinc-400">No knowledge yet</p>
-            <p className="mt-1 text-sm text-zinc-500">Upload your first document to get started.</p>
+            <p className="mt-3 font-medium text-foreground">No knowledge yet</p>
+            <p className="mt-1 text-(--text-tertiary)">Upload your first document to get started.</p>
             <Link
               href="/knowledge"
-              className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+              className="btn btn-primary mt-6"
             >
               Upload knowledge
             </Link>
           </div>
         ) : (
-          <ul className="space-y-2">
+          <div className="card p-0 overflow-hidden">
             {items.slice(0, 5).map((item) => (
-              <li key={item.id}>
-                <Link
-                  href={`/knowledge/${item.id}`}
-                  className="block rounded-lg border border-zinc-200 px-4 py-3 transition-colors hover:border-indigo-300 dark:border-zinc-800 dark:hover:border-indigo-700"
-                >
-                  <span className="font-medium">{item.title}</span>
-                  <span className="ml-2 text-xs text-zinc-400">{formatDate(item.createdAt)}</span>
-                </Link>
-              </li>
+              <div key={item.id} className="knowledge-row">
+                <div className="knowledge-row-icon">
+                  {item.source === 'NOTION' ? '📝' : item.source === 'SLACK' ? '💬' : item.source === 'URL' ? '🔗' : '📄'}
+                </div>
+                <div className="knowledge-row-body">
+                  <div className="knowledge-row-title">
+                    <Link href={`/knowledge/${item.id}`} className="hover:underline text-inherit">{item.title}</Link>
+                  </div>
+                  <div className="knowledge-row-meta">
+                    <span className={`badge badge-${item.source === 'UPLOAD' ? 'blue' : item.source === 'NOTION' ? 'accent' : 'default'}`}>
+                      {item.source}
+                    </span>
+                    <span>{formatDate(item.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </>

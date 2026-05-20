@@ -28,10 +28,10 @@ export function ChatWindow({ messages, loading, onSend }: ChatWindowProps) {
   }
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] flex-col">
-      <div className="flex-1 space-y-4 overflow-y-auto p-4">
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex-1 space-y-4 overflow-y-auto px-4 md:px-8 py-6">
         {messages.length === 0 && (
-          <p className="text-center text-zinc-500">Ask anything about your company knowledge.</p>
+          <div className="empty-state">Ask anything about your company knowledge.</div>
         )}
         {messages.map((m) => (
           <ChatMessage key={m.id} message={m} />
@@ -43,17 +43,20 @@ export function ChatWindow({ messages, loading, onSend }: ChatWindowProps) {
         )}
         <div ref={bottomRef} />
       </div>
-      <form onSubmit={handleSubmit} className="flex gap-2 border-t border-zinc-200 p-4 dark:border-zinc-800">
-        <input
-          className="flex-1 rounded-lg border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-900"
-          placeholder="Ask your org brain..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <Button type="submit" disabled={loading}>
-          Send
-        </Button>
-      </form>
+      <div className="chat-bar">
+        <form onSubmit={handleSubmit} className="chat-bar-inner max-w-4xl mx-auto w-full">
+          <span className="chat-bar-icon">✨</span>
+          <input
+            className="chat-bar-input"
+            placeholder="Ask your org brain..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button type="submit" disabled={loading} className="chat-bar-send">
+            ↑
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

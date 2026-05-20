@@ -30,18 +30,14 @@ export default function KnowledgePage() {
     <>
       <Topbar title="Knowledge" onUpload={() => setUploadOpen(true)} />
       <div className="page-content">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="page-heading mb-2">Knowledge Base</h1>
-            <p className="page-subheading mb-0">Manage and explore all data ingested into your organization's brain.</p>
-          </div>
-        </div>
+        <h1 className="page-heading">Knowledge Base</h1>
+        <p className="page-subheading">Manage and explore all data ingested into your organization's brain.</p>
 
         <TagFilter tags={allTags} selected={tagFilter} onSelect={setTagFilter} />
         {loading ? (
           <SkeletonList count={6} />
         ) : filtered.length === 0 ? (
-          <div className="empty-state py-16">
+          <div className="empty-state">
             <span className="text-4xl">🔍</span>
             <p className="mt-3 font-medium text-[var(--text-primary)]">
               {tagFilter ? 'No items match this tag' : 'No knowledge uploaded yet'}

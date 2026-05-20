@@ -1,17 +1,23 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
+import { useSidebar } from '@/components/providers/SidebarProvider'
 
 interface TopbarProps {
   title: string
   onUpload?: () => void
-  onToggleSidebar?: () => void
 }
 
-export function Topbar({ title, onUpload, onToggleSidebar }: TopbarProps) {
+export function Topbar({ title, onUpload }: TopbarProps) {
+  const { toggle } = useSidebar()
+
   return (
     <div className="topbar">
-      <span className="topbar-title">{title}</span>
+      <div className="flex items-center gap-2">
+        <button className="icon-btn md:hidden" onClick={toggle} aria-label="Toggle navigation">
+          ☰
+        </button>
+        <span className="topbar-title">{title}</span>
+      </div>
       <div className="topbar-right">
         {onUpload && (
           <button className="btn btn-sm btn-primary" onClick={onUpload}>
@@ -19,9 +25,7 @@ export function Topbar({ title, onUpload, onToggleSidebar }: TopbarProps) {
           </button>
         )}
         <div className="topbar-user">
-          <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
-            demo@acme.com
-          </span>
+          <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>demo@acme.com</span>
           <div className="avatar">D</div>
         </div>
       </div>

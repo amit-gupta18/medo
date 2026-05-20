@@ -22,7 +22,12 @@ app = FastAPI(title="Brainyfy API", version="2.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:3000"],
+    allow_origins=[
+        settings.FRONTEND_URL,
+        "http://localhost:3000",
+        "https://medo-inky.vercel.app",
+        "https://medo-inky.vercel.app/"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,6 +42,15 @@ app.include_router(graph.router)
 app.include_router(playbooks.router)
 app.include_router(integrations.router)
 
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to the Brainyfy API",
+        "docs_url": "/docs",
+        "health_url": "/health",
+        "version": "2.0"
+    }
 
 @app.get("/health")
 async def health():

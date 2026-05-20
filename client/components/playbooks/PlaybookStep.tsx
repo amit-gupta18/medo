@@ -10,16 +10,17 @@ interface PlaybookStepProps {
 
 export function PlaybookStepRow({ step, onToggle }: PlaybookStepProps) {
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <div className="flex items-start gap-3 rounded-lg border border-(--border-subtle) bg-(--bg-surface) p-4 transition-colors hover:border-(--border-mid)">
       <input
         type="checkbox"
         checked={step.completed}
         onChange={(e) => onToggle(e.target.checked)}
-        className="mt-1 h-4 w-4 rounded border-zinc-300"
+        className="mt-0.5 h-4 w-4 shrink-0 rounded border-(--border-mid) accent-[#C8A96E] cursor-pointer"
       />
-      <div className="flex-1">
-        <p className={`text-sm ${step.completed ? 'text-zinc-400 line-through' : ''}`}>
-          {step.order}. {step.text}
+      <div className="flex-1 min-w-0">
+        <p className={`text-sm leading-relaxed ${step.completed ? 'text-(--text-tertiary) line-through' : 'text-foreground'}`}>
+          <span className="text-(--text-tertiary) mr-1.5">{step.order}.</span>
+          {step.text}
         </p>
         {step.sourceItem?.title && (
           <Badge className="mt-2">{step.sourceItem.title}</Badge>

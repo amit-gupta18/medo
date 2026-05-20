@@ -45,27 +45,28 @@ export default function PlaybookDetailPage() {
 
   return (
     <>
-      <Topbar title="Playbook" />
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <Link href="/playbooks" className="text-sm text-indigo-600 hover:underline">
+      <Topbar title="Playbooks" />
+      <div className="page-content">
+        <Link href="/playbooks" className="caption hover:text-[var(--text-secondary)] transition-colors">
           ← Back to playbooks
         </Link>
+
         {loading ? (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-12 flex justify-center">
             <Spinner className="h-8 w-8" />
           </div>
         ) : !playbook ? (
-          <div className="mt-8 flex flex-col items-center py-16 text-center">
+          <div className="empty-state mt-8">
             <span className="text-4xl">📋</span>
-            <p className="mt-3 text-zinc-500">Playbook not found.</p>
+            <p className="mt-3 font-medium text-[var(--text-primary)]">Playbook not found.</p>
           </div>
         ) : (
           <article className="mt-6 max-w-2xl">
-            <h1 className="text-2xl font-bold">{playbook.title}</h1>
-            <p className="mt-1 text-sm text-zinc-500">
+            <h1 className="page-heading">{playbook.title}</h1>
+            <p className="caption mt-2">
               Topic: {playbook.topic} · {formatDate(playbook.createdAt)}
             </p>
-            <div className="mt-6 space-y-3">
+            <div className="mt-8 space-y-3">
               {playbook.steps.map((step) => (
                 <PlaybookStepRow
                   key={step.id}

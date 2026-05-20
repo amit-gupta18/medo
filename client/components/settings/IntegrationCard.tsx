@@ -57,28 +57,28 @@ export function IntegrationCard({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 p-5 dark:border-zinc-800">
+    <div className="card">
       <div className="flex items-start gap-4">
         <span className="text-3xl">{icon}</span>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold">{name}</h3>
+            <h3 className="card-title">{name}</h3>
             {connected ? (
               <Badge>{integration.teamName || 'Connected'}</Badge>
             ) : disabled ? (
               <Badge>Coming soon</Badge>
             ) : null}
           </div>
-          <p className="mt-1 text-sm text-zinc-500">{description}</p>
+          <p className="card-desc mt-1">{description}</p>
 
           {connected && integration.lastSyncedAt && (
-            <p className="mt-2 text-xs text-zinc-400">
+            <p className="caption mt-2">
               Last synced: {formatDate(integration.lastSyncedAt)}
             </p>
           )}
 
           {integration?.syncStatus === 'ERROR' && integration.errorMessage && (
-            <p className="mt-2 text-xs text-red-400">
+            <p className="caption text-(--red) mt-2">
               Error: {integration.errorMessage}
             </p>
           )}
